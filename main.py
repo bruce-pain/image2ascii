@@ -3,32 +3,48 @@ import os
 import io
 
 from PIL import Image
-from fastapi import Request, Form, UploadFile
+from fastapi import Request, UploadFile, FastAPI, status, HTTPException
 from fastapi.responses import JSONResponse
-from fastapi import FastAPI, status
 from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 
 from img2ascii import img_to_ascii
 
 
 app = FastAPI()
+templates = Jinja2Templates(directory="templates")
 
 STATIC_DIR = "static"
+VALID_EXTENSIONS = ["jpg", "jpeg", "png", "bmp", "tiff", "webp", "heic"]
 os.makedirs(STATIC_DIR, exist_ok=True)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
+def file_validation(file: UploadFile):
+    filename = file.filename
+    ext = filename.split(".")[-1]
+
+    if ext not in VALID_EXTENSIONS:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Invalid file extension. Supported files include {', '.join(VALID_EXTENSIONS)}",
+        )
+
+
 @app.get("/", tags=["Home"], status_code=status.HTTP_200_OK)
 async def get_root(request: Request) -> dict:
-    return JSONResponse(content={"Hello": "world"})
+    return templates.TemplateResponse("index.html", {"request": request})
 
 
 @app.get("/probe", tags=["Home"], status_code=status.HTTP_200_OK)
 async def probe():
     return {"message": "I am the Python FastAPI API responding"}
 
+
 @app.post("/upload", status_code=status.HTTP_200_OK)
 async def upload(image_file: UploadFile):
+    file_validation(image_file)
+
     image_object = await image_file.read()
     image = Image.open(io.BytesIO(image_object))
 

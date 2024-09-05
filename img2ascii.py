@@ -3,13 +3,13 @@ from typing import List
 from PIL import Image
 
 class ImgToAscii:
-    MAX_WIDTH = 75
+    MAX_WIDTH = 200
     def downscale_image(self, old_image: Image.Image, new_width: int) -> Image.Image:
         old_width, old_height = old_image.size
         aspect_ratio = old_height / old_width
 
         new_height = int(aspect_ratio * new_width)
-        new_width = int(new_width * 2.5)
+        new_width = int(new_width * 2)
 
         return old_image.resize((new_width, new_height))
 
