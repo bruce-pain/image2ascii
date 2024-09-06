@@ -49,6 +49,11 @@ button {
 	margin: 1rem;
 }
 
+.status-bar {
+	font-size: 2rem;
+	text-align: center;
+}
+
 .image-form {
 	display: flex;
 	flex-direction: column;
