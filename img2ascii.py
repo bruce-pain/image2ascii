@@ -4,7 +4,7 @@ from PIL import Image
 
 
 class ImgToAscii:
-    MAX_WIDTH = 200
+    MAX_WIDTH = 100
 
     def downscale_image(self, old_image: Image.Image, new_width: int) -> Image.Image:
         old_width, old_height = old_image.size
