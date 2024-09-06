@@ -50,7 +50,7 @@ class ImgToAscii:
             for x in range(width):
                 pixel_coordinate = (x, y)
                 pixel_intensity = grayscale_image.getpixel(pixel_coordinate)
-                red, green, blue = source_image.getpixel(pixel_coordinate)
+                red, green, blue = source_image.convert("RGB").getpixel(pixel_coordinate)
 
                 pixel_hex = '#{:02x}{:02x}{:02x}'.format(red, green, blue)
                 ascii_char = self.get_ascii_from_pixel_intensity(pixel_intensity)
