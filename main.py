@@ -24,7 +24,7 @@ def file_validation(file: UploadFile):
     filename = file.filename
     ext = filename.split(".")[-1]
 
-    if ext not in VALID_EXTENSIONS:
+    if ext.lower() not in VALID_EXTENSIONS:
         raise HTTPException(
             status_code=400,
             detail=f"Invalid file extension. Supported files include {', '.join(VALID_EXTENSIONS)}",
