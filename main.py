@@ -15,7 +15,7 @@ app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 
 STATIC_DIR = "static"
-VALID_EXTENSIONS = ["jpg", "jpeg", "png", "bmp", "tiff", "webp", "heic"]
+VALID_EXTENSIONS = ["jpg", "jpeg", "png", "webp"]
 os.makedirs(STATIC_DIR, exist_ok=True)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
