@@ -2,8 +2,10 @@ import math
 from typing import List
 from PIL import Image
 
+
 class ImgToAscii:
     MAX_WIDTH = 200
+
     def downscale_image(self, old_image: Image.Image, new_width: int) -> Image.Image:
         old_width, old_height = old_image.size
         aspect_ratio = old_height / old_width
@@ -14,9 +16,7 @@ class ImgToAscii:
         return old_image.resize((new_width, new_height))
 
     def get_ascii_from_pixel_intensity(self, pixel_intensity: int) -> str:
-        ASCII_MAP = (
-            r"$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\"^`'. "
-        )
+        ASCII_MAP = r".-':_,^=;><+!rc*/z?sLTv)J7(|Fi{C}fI31tlu[neoZ5Yxjya]2ESwqkP6h9d4VpOGbUAKXHm8RD#$Bg0MNWQ%&@"
         map_length = len(ASCII_MAP)
 
         map_index = math.ceil(((map_length - 1) * pixel_intensity) / 255)
@@ -47,5 +47,6 @@ class ImgToAscii:
             result_buffer.append(row)
 
         return self.ascii_string(result_buffer)
+
 
 img_to_ascii = ImgToAscii()
