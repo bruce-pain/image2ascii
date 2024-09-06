@@ -16,7 +16,7 @@ class ImgToAscii:
         return old_image.resize((new_width, new_height))
 
     def get_ascii_from_pixel_intensity(self, pixel_intensity: int) -> str:
-        ASCII_RAMP = "▒▓█"
+        ASCII_RAMP = " ░▒▓█"
         # ASCII_RAMP = r".-':_,^=;><+!rc*/z?sLTv)J7(|Fi{C}fI31tlu[neoZ5Yxjya]2ESwqkP6h9d4VpOGbUAKXHm8RD#$Bg0MNWQ%&@"
         map_length = len(ASCII_RAMP)
 
