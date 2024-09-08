@@ -11,6 +11,9 @@ document.getElementById('uploadForm').addEventListener('submit', async function(
 	const selectedCharSet = charSetSelect.value;
 	const addColor = document.getElementById('addColor').checked;
 
+	const screenWidth = window.screen.width
+	let imageWidth;
+
 	statusBar.innerHTML = "generating..."
 	asciiOutput.innerHTML = ""
 
@@ -20,7 +23,16 @@ document.getElementById('uploadForm').addEventListener('submit', async function(
 		formData.append('image_file', fileInput.files[0]);
 
 		try {
-			const response = await fetch(`/upload?character_set=${selectedCharSet}&is_colored=${addColor}`, {
+			alert(screenWidth)
+
+			if (screenWidth < 500) {
+				imageWidth = 150
+			} else {
+				imageWidth = 250
+			}
+
+
+			const response = await fetch(`/upload?width=${imageWidth}&character_set=${selectedCharSet}&is_colored=${addColor}`, {
 				method: 'POST',
 				body: formData
 			});
@@ -33,6 +45,10 @@ document.getElementById('uploadForm').addEventListener('submit', async function(
 				asciiOutput.innerHTML = result;
 			} else {
 				asciiOutput.textContent = result;
+			}
+
+			if (response.status == 400) {
+				statusBar.innerHTML = "Unsupported Image Format"
 			}
 
 

@@ -51,7 +51,7 @@ class ImgToAscii:
         source_image: Image.Image,
         ramp_choice: str,
         colored: bool,
-        image_width: int = 200,
+        image_width: int,
     ) -> List[List[dict]]:
         if source_image.width > image_width:
             source_image = self.downscale_image(source_image, image_width)

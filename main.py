@@ -44,6 +44,7 @@ async def probe():
 @app.post("/upload", status_code=status.HTTP_200_OK)
 async def upload(
     image_file: UploadFile,
+    width: int = Query(default=150),
     character_set: str = Query(default="basic"),
     is_colored: bool = Query(default=False),
 ):
@@ -52,7 +53,7 @@ async def upload(
     image_object = await image_file.read()
     image = Image.open(io.BytesIO(image_object))
 
-    result = img_to_ascii.generate_ascii(source_image=image, ramp_choice=character_set, colored=is_colored)
+    result = img_to_ascii.generate_ascii(source_image=image, ramp_choice=character_set, colored=is_colored, image_width=width)
 
     return JSONResponse(content={"result": result}, status_code=status.HTTP_200_OK)
 
