@@ -3,7 +3,7 @@ import os
 import io
 
 from PIL import Image
-from fastapi import Request, UploadFile, FastAPI, status, HTTPException
+from fastapi import Request, UploadFile, FastAPI, status, HTTPException, Query
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -42,13 +42,13 @@ async def probe():
 
 
 @app.post("/upload", status_code=status.HTTP_200_OK)
-async def upload(image_file: UploadFile):
+async def upload(image_file: UploadFile, character_set: str = Query(default="basic")):
     file_validation(image_file)
 
     image_object = await image_file.read()
     image = Image.open(io.BytesIO(image_object))
 
-    result = img_to_ascii.generate_ascii(image)
+    result = img_to_ascii.generate_ascii(source_image=image, ramp_choice=character_set)
 
     return JSONResponse(content={"result": result}, status_code=status.HTTP_200_OK)
 

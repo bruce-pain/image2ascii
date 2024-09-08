@@ -7,6 +7,9 @@ document.getElementById('uploadForm').addEventListener('submit', async function(
 	const fileInput = document.getElementById('fileInput');
 	const formData = new FormData();
 
+	const charSetSelect = document.getElementById('charSetSelect');
+    const selectedCharSet = charSetSelect.value;
+    
 	statusBar.innerHTML = "generating..."
 	asciiOutput.innerHTML = ""
 
@@ -16,7 +19,7 @@ document.getElementById('uploadForm').addEventListener('submit', async function(
 		formData.append('image_file', fileInput.files[0]);
 
 		try {
-			const response = await fetch('/upload', {
+			const response = await fetch(`/upload?character_set=${selectedCharSet}`, {
 				method: 'POST',
 				body: formData
 			});
