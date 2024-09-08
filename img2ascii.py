@@ -18,35 +18,40 @@ class ImgToAscii:
     ) -> str:
         RAMPS = {
             "block": " ░▒▓█",
-            "basic": " .:-=+*#%@",
-            "standard": " .'`^\",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$",
-            "extended": r".-':_,^=;><+!rc*/z?sLTv)J7(|Fi{C}fI31tlu[neoZ5Yxjya]2ESwqkP6h9d4VpOGbUAKXHm8RD#$Bg0MNWQ%&@",
+            "detailed": "`.',-~:;-=+*#%@MW",
+            "smooth": " ▁▂▃▄▅▆▇█",
+            "basic": ".°:oO8@",
+            "geometric": "○◌◊─│┌┐└┘├┤┬┴┼▁▂▃▄▅▆▇◔◕◐◑◒◓◖◗▀█❖●",
         }
 
         selected_ramp = RAMPS[ramp_choice]
 
         map_length = len(selected_ramp)
 
-        map_index = math.ceil(((map_length - 1) * pixel_intensity) / 255)
+        # map_index = math.ceil(((map_length - 1) * pixel_intensity) / 255)
+        map_index = min(map_length - 1, math.floor((map_length * pixel_intensity) / 256))
 
         return selected_ramp[map_index]
 
     def ascii_html_string(self, buffer: List[List[dict]]) -> str:
-        output = []
+        rows = []
         for row in buffer:
-            for pixel in row:
-                output.append(
-                    f"<span style='color: {pixel['color']};'>{pixel['char']}</span>"
-                )
-            output.append("<br>")
+            row_chars = "".join(
+                f"<span style='color: {pixel['color']};'>{pixel['char']}</span>"
+                for pixel in row
+            )
+            rows.append(row_chars)
+        return "<br>".join(rows)
 
-        return "".join(output)
+    def ascii_raw_string(self, buffer: List[List[int]]) -> str:
+        return "\n".join(["".join(row) for row in buffer])
 
     def generate_ascii(
         self,
         source_image: Image.Image,
         ramp_choice: str,
-        image_width: int = 150,
+        colored: bool,
+        image_width: int = 200,
     ) -> List[List[dict]]:
         if source_image.width > image_width:
             source_image = self.downscale_image(source_image, image_width)
@@ -63,18 +68,25 @@ class ImgToAscii:
             for x in range(width):
                 pixel_coordinate = (x, y)
                 pixel_intensity = grayscale_image.getpixel(pixel_coordinate)
-                red, green, blue = source_image.convert("RGB").getpixel(
-                    pixel_coordinate
+                ascii_char = self.get_ascii_from_pixel_intensity(
+                    pixel_intensity, ramp_choice
                 )
 
-                pixel_hex = "#{:02x}{:02x}{:02x}".format(red, green, blue)
-                ascii_char = self.get_ascii_from_pixel_intensity(pixel_intensity, ramp_choice)
+                if colored:
+                    red, green, blue = source_image.convert("RGB").getpixel(
+                        pixel_coordinate
+                    )
+                    pixel_hex = "#{:02x}{:02x}{:02x}".format(red, green, blue)
+                    pixel_data = {"char": ascii_char, "color": pixel_hex}
+                else:
+                    pixel_data = ascii_char
 
-                pixel_data = {"char": ascii_char, "color": pixel_hex}
                 row.append(pixel_data)
             result_buffer.append(row)
 
-        return self.ascii_html_string(result_buffer)
-
+        if colored:
+            return self.ascii_html_string(result_buffer)
+        else:
+            return self.ascii_raw_string(result_buffer)
 
 img_to_ascii = ImgToAscii()

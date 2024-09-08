@@ -20,13 +20,21 @@
 				<div class="image-form">
 					<input type="file" id="fileInput" name="file">
 					<div class="options">
-						<label for="charSetSelect">Choose a Character Set:</label>
-						<select id="charSetSelect" name="charSet">
-							<option value="basic">Basic ASCII</option>
-							<option value="standard">Standard ASCII</option>
-							<option value="extended">Extended ASCII</option>
-							<option value="block">Blocks</option>
-						</select>
+						<div class="char-select">
+							<label for="charSetSelect">Choose a Character Set:</label>
+							<select id="charSetSelect" name="charSet">
+								<option value="basic">Basic</option>
+								<option value="detailed">Detailed</option>
+								<option value="block">Blocks</option>
+								<option value="smooth">Smooth</option>
+								<option value="geometric">Geometric</option>
+							</select>
+						</div>
+						<div class="color-toggle">
+							<label for="addColor">
+								Colored output (Experimental, slow) <input type="checkbox" id="addColor" name="addColor">
+							</label>
+						</div>
 					</div>
 					<button type="submit">Generate</button>
 				</div>

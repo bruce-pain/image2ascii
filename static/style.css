@@ -63,6 +63,12 @@ button {
 	margin: 1rem;
 }
 
+.options {
+	display: flex;
+	flex-direction: row;
+	gap: 10px;
+}
+
 h1 {
 	font-size: 2rem;
 	text-align: center;

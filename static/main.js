@@ -8,8 +8,9 @@ document.getElementById('uploadForm').addEventListener('submit', async function(
 	const formData = new FormData();
 
 	const charSetSelect = document.getElementById('charSetSelect');
-    const selectedCharSet = charSetSelect.value;
-    
+	const selectedCharSet = charSetSelect.value;
+	const addColor = document.getElementById('addColor').checked;
+
 	statusBar.innerHTML = "generating..."
 	asciiOutput.innerHTML = ""
 
@@ -19,15 +20,21 @@ document.getElementById('uploadForm').addEventListener('submit', async function(
 		formData.append('image_file', fileInput.files[0]);
 
 		try {
-			const response = await fetch(`/upload?character_set=${selectedCharSet}`, {
+			const response = await fetch(`/upload?character_set=${selectedCharSet}&is_colored=${addColor}`, {
 				method: 'POST',
 				body: formData
 			});
 
 			const data = await response.json();
 			const result = data["result"];
-			statusBar.innerHTML = "done!"
-			asciiOutput.innerHTML = result;
+			statusBar.innerHTML = "done!";
+
+			if (addColor == true) {
+				asciiOutput.innerHTML = result;
+			} else {
+				asciiOutput.textContent = result;
+			}
+
 
 		} catch (error) {
 			statusBar.innerHTML = "Server Error!"
