@@ -23,12 +23,10 @@ document.getElementById('uploadForm').addEventListener('submit', async function(
 		formData.append('image_file', fileInput.files[0]);
 
 		try {
-			alert(screenWidth)
-
 			if (screenWidth < 500) {
 				imageWidth = 150
 			} else {
-				imageWidth = 250
+				imageWidth = 200
 			}
 
 
