@@ -47,13 +47,20 @@ async def upload(
     width: int = Query(default=150),
     character_set: str = Query(default="basic"),
     is_colored: bool = Query(default=False),
+    contrast: float = Query(default=1.0),
 ):
     file_validation(image_file)
 
     image_object = await image_file.read()
     image = Image.open(io.BytesIO(image_object))
 
-    result = img_to_ascii.generate_ascii(source_image=image, ramp_choice=character_set, colored=is_colored, image_width=width)
+    result = img_to_ascii.generate_ascii(
+        source_image=image,
+        ramp_choice=character_set,
+        colored=is_colored,
+        image_width=width,
+        contrast=contrast
+    )
 
     return JSONResponse(content={"result": result}, status_code=status.HTTP_200_OK)
 

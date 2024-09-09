@@ -1,6 +1,6 @@
 import math
 from typing import List
-from PIL import Image
+from PIL import Image, ImageEnhance
 
 
 class ImgToAscii:
@@ -52,9 +52,14 @@ class ImgToAscii:
         ramp_choice: str,
         colored: bool,
         image_width: int,
+        contrast: float,
     ) -> List[List[dict]]:
         if source_image.width > image_width:
             source_image = self.downscale_image(source_image, image_width)
+
+        # Enhance image
+        enhancer = ImageEnhance.Contrast(source_image)
+        source_image = enhancer.enhance(contrast)
 
         grayscale_image = source_image.convert("L")
 

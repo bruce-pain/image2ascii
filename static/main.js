@@ -1,12 +1,18 @@
-const characterPerLine = document.getElementById('rangeInput');
-const characterPerLineValue = document.getElementById('rangeValue');
+const characterPerLine = document.getElementById('cplRangeInput');
+const characterPerLineValue = document.getElementById('cplRangeValue');
+
+const contrast = document.getElementById('contrastRangeInput');
+const contrastValue = document.getElementById('contrastRangeValue');
 
 function updateRangeValue() {
 	characterPerLineValue.textContent = characterPerLine.value;
+	contrastValue.textContent = contrast.value;
 }
 
 characterPerLine.addEventListener("input", updateRangeValue);
+contrast.addEventListener("input", updateRangeValue);
 updateRangeValue()
+
 
 document.getElementById('uploadForm').addEventListener('submit', async function(e) {
 	e.preventDefault();
@@ -36,7 +42,7 @@ document.getElementById('uploadForm').addEventListener('submit', async function(
 		formData.append('image_file', fileInput.files[0]);
 
 		try {
-			const response = await fetch(`/upload?width=${characterPerLine.value}&character_set=${selectedCharSet}&is_colored=${addColor}`, {
+			const response = await fetch(`/upload?width=${characterPerLine.value}&character_set=${selectedCharSet}&is_colored=${addColor}&contrast=${contrast.value}`, {
 				method: 'POST',
 				body: formData
 			});
