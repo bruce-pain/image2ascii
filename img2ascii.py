@@ -21,7 +21,7 @@ class ImgToAscii:
             "detailed": "`.',-~:;-=+*#%@MW",
             "smooth": " ▁▂▃▄▅▆▇█",
             "basic": ".°:oO8@",
-            "geometric": "○◌◊─│┌┐└┘├┤┬┴┼▁▂▃▄▅▆▇◔◕◐◑◒◓◖◗▀█❖●",
+            "geometric": "○◌◊─│┌┐└┘├┤┬┴┼▁▂▃▄▅▆▇▀█",
         }
 
         selected_ramp = RAMPS[ramp_choice]
