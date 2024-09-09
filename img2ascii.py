@@ -17,9 +17,9 @@ class ImgToAscii:
         self, pixel_intensity: int, ramp_choice: str
     ) -> str:
         RAMPS = {
-            "block": " ░▒▓█",
+            "block": "░▒▓█",
             "detailed": "`.',-~:;-=+*#%@MW",
-            "smooth": " ▁▂▃▄▅▆▇█",
+            "smooth": "▁▂▃▄▅▆▇█",
             "basic": ".°:oO8@",
             "geometric": "○◌◊─│┌┐└┘├┤┬┴┼▁▂▃▄▅▆▇▀█",
         }
