@@ -33,12 +33,17 @@
 								<option value="geometric">Geometric</option>
 							</select>
 						</div>
+						<div class="char-per-line">
+							<label for="rangeInput">Characters per line:</label>
+							<input type="range" id="rangeInput" min="10" max="400" value="200" step="10">
+							<span id="rangeValue">400</span>
+						</div>
 						<div class="color-toggle">
 							<label for="addColor">
 								Colored output (temporarily disabled) <input type="checkbox" id="addColor"
 									name="addColor" disabled>
 							</label>
-						</div>
+						</div> 
 					</div>
 					<button type="submit">Generate</button>
 				</div>

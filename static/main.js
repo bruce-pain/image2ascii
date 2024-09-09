@@ -1,3 +1,13 @@
+const characterPerLine = document.getElementById('rangeInput');
+const characterPerLineValue = document.getElementById('rangeValue');
+
+function updateRangeValue() {
+	characterPerLineValue.textContent = characterPerLine.value;
+}
+
+characterPerLine.addEventListener("input", updateRangeValue);
+updateRangeValue()
+
 document.getElementById('uploadForm').addEventListener('submit', async function(e) {
 	e.preventDefault();
 
@@ -10,10 +20,11 @@ document.getElementById('uploadForm').addEventListener('submit', async function(
 
 	const charSetSelect = document.getElementById('charSetSelect');
 	const selectedCharSet = charSetSelect.value;
+
 	const addColor = document.getElementById('addColor').checked;
 
 	const screenWidth = window.screen.width
-	let imageWidth;
+	let dynamicFontSize = 44 / characterPerLine.value;
 
 	statusBar.innerHTML = "generating..."
 	displayArea.style.border = "0px";
@@ -25,8 +36,7 @@ document.getElementById('uploadForm').addEventListener('submit', async function(
 		formData.append('image_file', fileInput.files[0]);
 
 		try {
-			imageWidth = 400
-			const response = await fetch(`/upload?width=${imageWidth}&character_set=${selectedCharSet}&is_colored=${addColor}`, {
+			const response = await fetch(`/upload?width=${characterPerLine.value}&character_set=${selectedCharSet}&is_colored=${addColor}`, {
 				method: 'POST',
 				body: formData
 			});
@@ -35,6 +45,7 @@ document.getElementById('uploadForm').addEventListener('submit', async function(
 			const result = data["result"];
 			statusBar.innerHTML = "done!";
 			displayArea.style.border = "1px solid #FCFCFC";
+			asciiOutput.style.fontSize = `${dynamicFontSize}rem`
 
 			if (addColor == true) {
 				asciiOutput.innerHTML = result;
